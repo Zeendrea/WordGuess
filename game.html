@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>word guess · sticker edition · back confirm + glow</title>
+  <style>
+    /* playful, thick outlines, sticker tiles, glossy 3D toggles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #fbead5;
+      font-family: 'Fredoka', 'Comic Neue', 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.2rem;
+    }
+
+    /* main game card */
+    .game-card {
+      max-width: 880px;
+      width: 100%;
+      background: #fef7e9;
+      border: 6px solid #1f2b3c;
+      border-radius: 60px 60px 50px 50px;
+      box-shadow: 0 18px 0 #0f1a24, 0 25px 30px -10px rgba(0,0,0,0.3);
+      padding: 2.2rem 1.8rem 2.5rem 1.8rem;
+      position: relative;
+    }
+
+    /* --- BACK BUTTON (now triggers confirmation modal) --- */
+    .back-btn {
+      position: absolute;
+      top: 1.2rem;
+      left: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: #ffb07c;
+      border: 4px solid #1f2b3c;
+      border-radius: 50px;
+      padding: 0.5rem 1.3rem 0.5rem 1.1rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1f2b3c;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 6px 0 #aa5f32, 0 7px 0 #1f2b3c;
+      cursor: pointer;
+      transition: all 0.06s linear;
+      background: linear-gradient(145deg, #ffc89c, #ff9345);
+      text-shadow: 1px 1px 0 #ffe3b0;
+      z-index: 15;
+      line-height: 1;
+      text-decoration: none;
+      font-family: 'Fredoka', sans-serif;
+      border: 4px solid #1f2b3c;
+    }
+
+    .back-btn:active {
+      transform: translateY(5px);
+      box-shadow: 0 2px 0 #aa5f32, 0 3px 0 #1f2b3c;
+    }
+
+    .back-btn svg {
+      width: 1.2rem;
+      height: 1.2rem;
+      fill: currentColor;
+      stroke: #1f2b3c;
+      stroke-width: 1.8;
+    }
+
+    /* header spacing */
+    .game-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.8rem;
+      padding: 0 0.3rem 0 4.5rem;
+      gap: 1rem 0.8rem;
+    }
+
+    .title-block {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 1rem 0.8rem;
+    }
+
+    .game-title {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #ff7a3d;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+      text-shadow: 4px 4px 0 #1f2b3c, 5px 5px 0 #00000030;
+      background: #fff1d2;
+      padding: 0.2rem 1.4rem 0.2rem 1.4rem;
+      border-radius: 100px;
+      border: 4px solid #1f2b3c;
+      display: inline-block;
+      transform: rotate(-0.5deg);
+      line-height: 1.2;
+    }
+
+    .stats-badge {
+      background: #b5d6ff;
+      border: 4px solid #1f2b3c;
+      border-radius: 50px;
+      padding: 0.5rem 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      box-shadow: 0 7px 0 #0f1a24, 0 8px 0 #1f2b3c;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: #1f2b3c;
+    }
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .stat-icon {
+      width: 14px;
+      height: 14px;
+      background: #ff7a3d;
+      border: 2px solid #1f2b3c;
+      border-radius: 20px;
+      transform: rotate(5deg);
+    }
+    .stat-value {
+      background: white;
+      border: 3px solid #1f2b3c;
+      border-radius: 30px;
+      padding: 0.15rem 0.9rem;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #1f2b3c;
+      line-height: 1.4;
+    }
+
+    /* ----- DIFFICULTY TOGGLES –– now with GLOW active state (new) ----- */
+    .difficulty-row {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .diff-btn {
+      border: none;
+      background: #fccf7c;
+      border: 4px solid #1f2b3c;
+      border-radius: 40px;
+      padding: 0.7rem 1.9rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #1f2b3c;
+      letter-spacing: 0.5px;
+      box-shadow: 0 7px 0 #9e752b, 0 8px 0 #1f2b3c;
+      cursor: pointer;
+      transition: all 0.1s ease;
+      transform: translateY(0);
+      background: linear-gradient(145deg, #ffe28a, #f5b83d);
+      text-shadow: 1px 1px 0 #fff9cf;
+      position: relative;
+    }
+
+    .diff-btn::after {
+      content: "";
+      position: absolute;
+      top: 2px; left: 6px; right: 6px; height: 35%;
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,240,0.9), rgba(255,255,200,0.1));
+      border-radius: 40px 40px 30px 30px;
+      pointer-events: none;
+    }
+
+    /* --- ACTIVE STATE: different background + GLOW (box-shadow) --- */
+    .diff-btn.active {
+      background: #ffb347;            /* brighter orange-glow base */
+      background: linear-gradient(145deg, #ffcf6e, #ffa726);
+      box-shadow: 0 3px 0 #9e752b, 0 4px 0 #1f2b3c, 0 0 18px #ffdd55, 0 0 25px #ffb703;  /* glow effect */
+      transform: translateY(4px);
+      text-shadow: 2px 2px 0 #fff0b5;
+      border-color: #1f2b3c;
+    }
+
+    .diff-btn:active {
+      transform: translateY(5px);
+      box-shadow: 0 1px 0 #9e752b, 0 2px 0 #1f2b3c;
+    }
+
+    /* game board */
+    .board-wrap {
+      background: #fcedd3;
+      border: 5px solid #1f2b3c;
+      border-radius: 50px;
+      padding: 2rem 1.2rem 1.8rem 1.2rem;
+      box-shadow: inset 0 -4px 0 #b8a48b, 0 12px 0 #0f1a24;
+      margin-top: 0.8rem;
+    }
+
+    .board {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      align-items: center;
+    }
+
+    .row {
+      display: flex;
+      gap: 0.9rem;
+      justify-content: center;
+    }
+
+    .tile {
+      width: clamp(3.8rem, 12vw, 5.2rem);
+      height: clamp(3.8rem, 12vw, 5.2rem);
+      background: #b5d6ff;
+      border: 5px solid #1f2b3c;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: clamp(2rem, 7vw, 2.7rem);
+      color: #1f2b3c;
+      text-transform: uppercase;
+      box-shadow: 0 9px 0 #6f8eb3, 0 10px 0 #1f2b3c, 0 4px 12px rgba(0,0,0,0.2);
+      transition: all 0.08s ease;
+      transform: translateY(0);
+      font-family: 'Fredoka', 'Comic Neue', cursive;
+      text-shadow: 2px 2px 0 #dbeaff;
+    }
+
+    .tile:not(.correct):not(.present):not(.absent):hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 0 #6f8eb3, 0 13px 0 #1f2b3c;
+      background: #c9e2ff;
+    }
+
+    .tile:active {
+      transform: translateY(6px);
+      box-shadow: 0 4px 0 #6f8eb3, 0 5px 0 #1f2b3c;
+    }
+
+    .tile.flip {
+      animation: stickerPop 0.22s cubic-bezier(0.2, 1.2, 0.3, 1.2);
+    }
+
+    @keyframes stickerPop {
+      0% { transform: scale(1) rotate(0deg); box-shadow: 0 9px 0 #6f8eb3, 0 10px 0 #1f2b3c; }
+      35% { transform: scale(1.18) rotate(1deg); box-shadow: 0 4px 0 #6f8eb3, 0 6px 0 #1f2b3c; }
+      100% { transform: scale(1) rotate(0); box-shadow: 0 9px 0 #6f8eb3, 0 10px 0 #1f2b3c; }
+    }
+
+    .tile.correct {
+      background: #9fd87f;
+      border-color: #1f2b3c;
+      box-shadow: 0 9px 0 #52803e, 0 10px 0 #1f2b3c;
+      color: #1f2b3c;
+      text-shadow: 2px 2px 0 #b8f09b;
+    }
+
+    .tile.present {
+      background: #fde74c;
+      border-color: #1f2b3c;
+      box-shadow: 0 9px 0 #c5a22b, 0 10px 0 #1f2b3c;
+      color: #1f2b3c;
+      text-shadow: 2px 2px 0 #fffac2;
+    }
+
+    .tile.absent {
+      background: #b0bcc7;
+      border-color: #1f2b3c;
+      box-shadow: 0 9px 0 #6c7a87, 0 10px 0 #1f2b3c;
+      color: #1f2b3c;
+      text-shadow: 2px 2px 0 #d0dde8;
+    }
+
+    .play-again-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    .play-again-btn {
+      background: #ffb07c;
+      border: 5px solid #1f2b3c;
+      border-radius: 60px;
+      padding: 1rem 3rem;
+      font-size: 2rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #1f2b3c;
+      letter-spacing: 2px;
+      box-shadow: 0 10px 0 #aa5f32, 0 11px 0 #1f2b3c;
+      cursor: pointer;
+      transition: 0.06s linear;
+      background: linear-gradient(145deg, #ffc89c, #ff9345);
+      text-shadow: 2px 2px 0 #ffe3b0;
+      transform: translateY(0);
+      line-height: 1.2;
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    .play-again-btn:active {
+      transform: translateY(6px);
+      box-shadow: 0 4px 0 #aa5f32, 0 5px 0 #1f2b3c;
+    }
+
+    .play-again-btn.hidden {
+      display: none;
+    }
+
+    /* ---------- CONFIRMATION MODAL (glossy, matches game theme) ---------- */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.2);
+ backdrop-filter: blur(3px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      transition: 0.2s;
+    }
+
+    .modal-card {
+      background: #fef0d7;
+      border: 6px solid #1f2b3c;
+      border-radius: 60px;
+      padding: 2.2rem 2.5rem;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 0 18px 0 #0f1a24, 0 25px 30px -8px black;
+      text-align: center;
+    }
+
+    .modal-card p {
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: #1f2b3c;
+      text-transform: uppercase;
+      letter-spacing: -0.3px;
+      margin-bottom: 2rem;
+      text-shadow: 2px 2px 0 #ffeec2;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .modal-btn {
+      border: 4px solid #1f2b3c;
+      border-radius: 50px;
+      padding: 0.9rem 2rem;
+      font-size: 1.5rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      background: #b5d6ff;
+      box-shadow: 0 6px 0 #6f8eb3, 0 7px 0 #1f2b3c;
+      cursor: pointer;
+      transition: 0.04s linear;
+      background: linear-gradient(145deg, #d0e4ff, #9bbdf0);
+      color: #1f2b3c;
+      min-width: 140px;
+    }
+
+    .modal-btn.quit {
+      background: #ffb07c;
+      background: linear-gradient(145deg, #ffb07c, #f57c42);
+    }
+
+    .modal-btn:active {
+      transform: translateY(5px);
+      box-shadow: 0 1px 0 #6f8eb3, 0 2px 0 #1f2b3c;
+    }
+
+    .hidden-modal {
+      display: none !important;
+    }
+
+    @media (max-width: 580px) {
+      .game-card { padding: 1.5rem 1rem; }
+      .game-header { padding-left: 3.8rem; }
+      .back-btn { top: 1rem; left: 1rem; padding: 0.3rem 0.9rem; font-size: 1rem; }
+      .game-title { font-size: 2.2rem; }
+      .modal-card p { font-size: 1.5rem; }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+  <div class="game-card">
+    <!-- BACK BUTTON (now opens modal instead of direct link) -->
+    <button class="back-btn" id="backBtnTrigger">
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      <span>back</span>
+    </button>
+
+    <div class="game-header">
+      <div class="title-block">
+        <span class="game-title">word guess</span>
+        <div class="stats-badge" id="statsBadge">
+          <span class="stat-item"><span class="stat-icon"></span> length <span id="wordLengthDisplay" class="stat-value">5</span></span>
+          <span class="stat-item"><span class="stat-icon"></span> tries <span id="attemptsDisplay" class="stat-value">6</span></span>
+        </div>
+      </div>
+      <!-- difficulty toggles (active glow added) -->
+      <div class="difficulty-row" id="difficultyRow">
+        <button class="diff-btn" data-difficulty="easy">😊 easy</button>
+        <button class="diff-btn active" data-difficulty="medium">🤓 medium</button>
+        <button class="diff-btn" data-difficulty="hard">💪 hard</button>
+      </div>
+    </div>
+
+    <div class="board-wrap">
+      <div id="board" class="board" aria-label="sticker game grid"></div>
+    </div>
+
+    <div class="play-again-container">
+      <button id="playAgainBtn" class="play-again-btn hidden">↻ PLAY AGAIN</button>
+    </div>
+  </div>
+
+  <!-- CONFIRMATION MODAL (hidden by default) -->
+  <div id="confirmModal" class="modal-overlay hidden-modal">
+    <div class="modal-card">
+      <p>⚠️ ARE YOU SURE?<br>Your progress will be lost.</p>
+      <div class="modal-actions">
+        <button class="modal-btn" id="modalResume">↻ RESUME</button>
+        <button class="modal-btn quit" id="modalQuit">✕ QUIT</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // ---------- WORD SETS (easy:4/7, medium:5/6, hard:6/5) ----------
+      const WORD_SETS = {
+        easy:   ['FISH', 'MOON', 'STAR', 'TREE', 'BOOK', 'RAIN', 'HAND', 'FORT', 'ROCK', 'WIND'],
+        medium: ['APPLE', 'HOUSE', 'PLANT', 'CHAIR', 'TABLE', 'MUSIC', 'WATER', 'LIGHT', 'SMILE', 'BRAIN'],
+        hard:   ['PUZZLE', 'ORANGE', 'CASTLE', 'MARKET', 'ROCKET', 'BOTTLE', 'PLANET', 'WINDOW', 'FLOWER', 'GARDEN']
+      };
+
+      const MAX_ROWS = { easy: 7, medium: 6, hard: 5 }; 
+
+      // state
+      let currentDifficulty = 'medium';
+      let secretWord = 'APPLE';
+      let wordLength = 5;
+      let maxAttempts = 6;
+      let currentRow = 0;
+      let currentCol = 0;
+      let gameFinished = false;
+      let guessedLetters = [];
+
+      // DOM
+      const boardEl = document.getElementById('board');
+      const wordLengthSpan = document.getElementById('wordLengthDisplay');
+      const attemptsSpan = document.getElementById('attemptsDisplay');
+      const diffBtns = document.querySelectorAll('.diff-btn');
+      const playAgainBtn = document.getElementById('playAgainBtn');
+      const backTrigger = document.getElementById('backBtnTrigger');
+      const modal = document.getElementById('confirmModal');
+      const resumeBtn = document.getElementById('modalResume');
+      const quitBtn = document.getElementById('modalQuit');
+
+      // helper: random word
+      function getRandomWord(diff) {
+        const arr = WORD_SETS[diff] || WORD_SETS.medium;
+        return arr[Math.floor(Math.random() * arr.length)];
+      }
+
+      // reset game (fresh board, new word)
+      function resetGame() {
+        guessedLetters = [];
+        currentRow = 0;
+        currentCol = 0;
+        gameFinished = false;
+
+        secretWord = getRandomWord(currentDifficulty);
+        wordLength = secretWord.length;
+        maxAttempts = MAX_ROWS[currentDifficulty];
+
+        wordLengthSpan.textContent = wordLength;
+        attemptsSpan.textContent = maxAttempts;
+
+        buildEmptyBoard();
+        playAgainBtn.classList.add('hidden');
+
+        const wrap = document.querySelector('.board-wrap');
+        wrap.style.animation = 'none';
+        wrap.offsetHeight;
+        wrap.style.animation = 'stickerPop 0.2s ease';
+      }
+
+      // change difficulty + update active class (GLOW active state)
+      function setDifficulty(diff) {
+        if (diff === currentDifficulty) return;
+        currentDifficulty = diff;
+        // update active class on buttons (new active style includes glow)
+        diffBtns.forEach(btn => {
+          const isActive = btn.dataset.difficulty === diff;
+          btn.classList.toggle('active', isActive);
+        });
+        resetGame(); // also resets board and word
+      }
+
+      // Build empty board
+      function buildEmptyBoard() {
+        boardEl.innerHTML = '';
+        for (let r = 0; r < maxAttempts; r++) {
+          const rowDiv = document.createElement('div');
+          rowDiv.className = 'row';
+          for (let c = 0; c < wordLength; c++) {
+            const tile = document.createElement('div');
+            tile.className = 'tile';
+            tile.dataset.r = r;
+            tile.dataset.c = c;
+            rowDiv.appendChild(tile);
+          }
+          boardEl.appendChild(rowDiv);
+        }
+      }
+
+      function getTile(r, c) {
+        return boardEl.children[r]?.children[c];
+      }
+
+      // keyboard handlers
+      function addLetter(letter) {
+        if (gameFinished) return;
+        if (currentCol >= wordLength) return;
+        const tile = getTile(currentRow, currentCol);
+        if (!tile) return;
+        tile.textContent = letter;
+        tile.dataset.letter = letter;
+        if (!guessedLetters.includes(letter)) guessedLetters.push(letter);
+        currentCol++;
+      }
+
+      function deleteLetter() {
+        if (gameFinished) return;
+        if (currentCol <= 0) return;
+        currentCol--;
+        const tile = getTile(currentRow, currentCol);
+        tile.textContent = '';
+        delete tile.dataset.letter;
+      }
+
+      function submitGuess() {
+        if (gameFinished) return;
+        if (currentCol !== wordLength) return;
+
+        let guess = '';
+        for (let c = 0; c < wordLength; c++) {
+          guess += getTile(currentRow, c).dataset.letter || '';
+        }
+        if (guess.length !== wordLength) return;
+
+        const secretArr = secretWord.split('');
+        const result = Array(wordLength).fill('absent');
+
+        for (let i = 0; i < wordLength; i++) {
+          if (guess[i] === secretArr[i]) {
+            result[i] = 'correct';
+            secretArr[i] = null;
+          }
+        }
+        for (let i = 0; i < wordLength; i++) {
+          if (result[i] === 'correct') continue;
+          const idx = secretArr.indexOf(guess[i]);
+          if (idx !== -1) {
+            result[i] = 'present';
+            secretArr[idx] = null;
+          }
+        }
+
+        for (let i = 0; i < wordLength; i++) {
+          const tile = getTile(currentRow, i);
+          const status = result[i];
+          tile.classList.add('flip');
+          setTimeout((t, cls) => {
+            t.classList.remove('flip');
+            t.classList.add(cls);
+          }, 120 + i * 70, tile, status);
+        }
+
+        setTimeout(() => {
+          if (guess === secretWord) {
+            gameFinished = true;
+            confetti({ particleCount: 150, colors: ['#FF7B00', '#FFD700', '#91C8FF'], origin: { x: 0.5, y: 0.5 } });
+            playAgainBtn.classList.remove('hidden');
+            setTimeout(() => alert('🎉 POP! You nailed it —  ' + secretWord), 500);
+          } else if (currentRow + 1 >= maxAttempts) {
+            gameFinished = true;
+            playAgainBtn.classList.remove('hidden');
+            setTimeout(() => alert('😿 oh no! The word was ' + secretWord), 150);
+          } else {
+            currentRow++;
+            currentCol = 0;
+          }
+          const remaining = gameFinished ? 0 : (maxAttempts - currentRow);
+          attemptsSpan.textContent = remaining;
+        }, 400 + wordLength * 60);
+      }
+
+      // ----- BACK BUTTON – open modal -----
+      backTrigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        // only show modal if game is in progress (some letters placed or row>0)
+        // But requirement: always show confirmation if there's progress (non-finished game, any tile filled)
+        let hasProgress = false;
+        if (!gameFinished && (currentRow > 0 || currentCol > 0)) {
+          // check any tile filled
+          for (let r = 0; r <= currentRow; r++) {
+            for (let c = 0; c < wordLength; c++) {
+              if (getTile(r, c)?.dataset.letter) {
+                hasProgress = true;
+                break;
+              }
+            }
+          }
+        }
+        // always show modal (even if no progress – but user expects consistent behaviour)
+        // to be safe: if gameFinished, we can go directly? But better ask anyway. We'll show modal always when clicked.
+        modal.classList.remove('hidden-modal');
+      });
+
+      // Resume = hide modal
+      resumeBtn.addEventListener('click', () => {
+        modal.classList.add('hidden-modal');
+      });
+
+      // Quit = navigate to instructions page (preserve settings via URL)
+      quitBtn.addEventListener('click', () => {
+        // preserve settings (category, length, tries) as query params
+        const params = new URLSearchParams();
+        params.set('difficulty', currentDifficulty);
+        params.set('len', wordLength);
+        params.set('tries', maxAttempts);
+        // optionally add row/col if you want to resume later (but instructions likely just read category)
+        window.location.href = `/instructions?${params.toString()}`;
+      });
+
+      // Also close modal if click outside (simple overlay click)
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.add('hidden-modal');
+        }
+      });
+
+      // Difficulty click (now uses setDifficulty)
+      diffBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          setDifficulty(btn.dataset.difficulty);
+        });
+      });
+
+      // play again
+      playAgainBtn.addEventListener('click', () => {
+        resetGame();
+      });
+
+      // keyboard
+      window.addEventListener('keydown', (e) => {
+        const key = e.key;
+        if (modal.classList.contains('hidden-modal') === false) return; // ignore typing when modal open
+        if (/^[a-zA-Z]$/.test(key)) {
+          e.preventDefault();
+          addLetter(key.toUpperCase());
+        } else if (key === 'Backspace') {
+          e.preventDefault();
+          deleteLetter();
+        } else if (key === 'Enter') {
+          e.preventDefault();
+          submitGuess();
+        }
+      });
+
+      // init from URL difficulty
+      function getURLParameter(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+      }
+      const urlDiff = getURLParameter('difficulty');
+      if (urlDiff && ['easy', 'medium', 'hard'].includes(urlDiff)) {
+        currentDifficulty = urlDiff;
+      }
+      // set active class accordingly
+      diffBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.difficulty === currentDifficulty);
+      });
+      resetGame(); // starts with correct difficulty
+
+      // make sure active glow appears on the correct button (resetGame doesn't change active class)
+      // after resetGame, active class is already set from above.
+    })();
+  </script>
+</body>
+</html>

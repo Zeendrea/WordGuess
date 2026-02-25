@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <title>WORD GUESS</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="topbar">
+        <div class="top-inner">
+            <div class="owl">
+                <img src="components/assets/logo.png" alt="logo">
+            </div>
+            <div class="wordle-label">WORD GUESS</div>
+        </div>
+    </header>
+
+    <main class="split-root">
+        <section class="left">
+            <h1 class="title"><span class="word">WORD</span><span class="guess">GUESS</span></h1>
+
+            <p class="subtitle">Five chances. One secret word. Can you guess it?</p>
+
+            <div class="controls-bottom">
+                <div class="difficulty-row btn-row" role="radiogroup" aria-label="Choose difficulty">
+                    <button class="btn difficulty easy" data-difficulty="easy" role="radio" aria-checked="false">
+                        <div class="label">Easy</div>
+                        <div class="meta">🟢 4 letters, 7 tries</div>
+                    </button>
+
+                    <button class="btn difficulty medium" data-difficulty="medium" role="radio" aria-checked="false">
+                        <div class="label">Medium</div>
+                        <div class="meta">🔵 5 letters, 6 tries</div>
+                    </button>
+
+                    <button class="btn difficulty hard" data-difficulty="hard" role="radio" aria-checked="false">
+                        <div class="label">Hard</div>
+                        <div class="meta">🔴 6 letters, 5 tries</div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <aside class="right" aria-hidden="true">
+            <img src="components/assets/puzzle.png" alt="puzzle" class="puzzle-img">
+        </aside>
+    </main>
+
+    <script src="index.js" defer></script>
+</body>
+</html>
