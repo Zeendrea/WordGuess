@@ -1,3 +1,4 @@
+
 # WordGuess - Word Guessing Game
 
 A Wordle-style word guessing game built with vanilla JavaScript and Vite.
