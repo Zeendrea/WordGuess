@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>word guess · sticker edition · back confirm + glow</title>
+  <title>word guess · custom icons · sticker edition</title>
   <style>
-    /* playful, thick outlines, sticker tiles, glossy 3D toggles */
+    /* ===== GAME UI – thick borders, cream bg, sticker style ===== */
     * {
       margin: 0;
       padding: 0;
@@ -13,28 +13,28 @@
     }
 
     body {
-      background: #fbead5;
-      font-family: 'Fredoka', 'Comic Neue', 'Segoe UI', system-ui, sans-serif;
+      background: #ecd9b9;
+      font-family: 'Fredoka', 'Comic Neue', system-ui, sans-serif;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1.2rem;
+      padding: 1rem;
     }
 
-    /* main game card */
+    /* main game card (cream background) */
     .game-card {
       max-width: 880px;
       width: 100%;
-      background: #fef7e9;
+      background: #fdf5e6;
       border: 6px solid #1f2b3c;
       border-radius: 60px 60px 50px 50px;
-      box-shadow: 0 18px 0 #0f1a24, 0 25px 30px -10px rgba(0,0,0,0.3);
-      padding: 2.2rem 1.8rem 2.5rem 1.8rem;
+      box-shadow: 0 18px 0 #0f1a24, 0 25px 30px -10px rgba(0,0,0,0.4);
+      padding: 2.2rem 1.8rem 2.5rem;
       position: relative;
     }
 
-    /* --- BACK BUTTON (now triggers confirmation modal) --- */
+    /* --- back button --- */
     .back-btn {
       position: absolute;
       top: 1.2rem;
@@ -50,24 +50,18 @@
       font-weight: 700;
       color: #1f2b3c;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
       box-shadow: 0 6px 0 #aa5f32, 0 7px 0 #1f2b3c;
       cursor: pointer;
       transition: all 0.06s linear;
       background: linear-gradient(145deg, #ffc89c, #ff9345);
       text-shadow: 1px 1px 0 #ffe3b0;
-      z-index: 15;
+      z-index: 20;
       line-height: 1;
-      text-decoration: none;
-      font-family: 'Fredoka', sans-serif;
-      border: 4px solid #1f2b3c;
     }
-
     .back-btn:active {
       transform: translateY(5px);
       box-shadow: 0 2px 0 #aa5f32, 0 3px 0 #1f2b3c;
     }
-
     .back-btn svg {
       width: 1.2rem;
       height: 1.2rem;
@@ -76,7 +70,7 @@
       stroke-width: 1.8;
     }
 
-    /* header spacing */
+    /* header & stats */
     .game-header {
       display: flex;
       flex-wrap: wrap;
@@ -84,32 +78,26 @@
       justify-content: space-between;
       margin-bottom: 1.8rem;
       padding: 0 0.3rem 0 4.5rem;
-      gap: 1rem 0.8rem;
+      gap: 1rem;
     }
-
     .title-block {
       display: flex;
       align-items: baseline;
       flex-wrap: wrap;
-      gap: 1rem 0.8rem;
+      gap: 1rem;
     }
-
     .game-title {
       font-size: 2.8rem;
       font-weight: 700;
       color: #ff7a3d;
       text-transform: uppercase;
-      letter-spacing: -0.5px;
       text-shadow: 4px 4px 0 #1f2b3c, 5px 5px 0 #00000030;
       background: #fff1d2;
-      padding: 0.2rem 1.4rem 0.2rem 1.4rem;
+      padding: 0.2rem 1.4rem;
       border-radius: 100px;
       border: 4px solid #1f2b3c;
-      display: inline-block;
       transform: rotate(-0.5deg);
-      line-height: 1.2;
     }
-
     .stats-badge {
       background: #b5d6ff;
       border: 4px solid #1f2b3c;
@@ -121,21 +109,11 @@
       box-shadow: 0 7px 0 #0f1a24, 0 8px 0 #1f2b3c;
       font-weight: 600;
       font-size: 1.2rem;
-      color: #1f2b3c;
     }
-
     .stat-item {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-    }
-    .stat-icon {
-      width: 14px;
-      height: 14px;
-      background: #ff7a3d;
-      border: 2px solid #1f2b3c;
-      border-radius: 20px;
-      transform: rotate(5deg);
     }
     .stat-value {
       background: white;
@@ -144,59 +122,33 @@
       padding: 0.15rem 0.9rem;
       font-weight: 700;
       font-size: 1.3rem;
-      color: #1f2b3c;
-      line-height: 1.4;
     }
 
-    /* ----- DIFFICULTY TOGGLES –– now with GLOW active state (new) ----- */
+    /* difficulty toggles with GLOW active */
     .difficulty-row {
       display: flex;
       gap: 0.6rem;
       flex-wrap: wrap;
     }
-
     .diff-btn {
-      border: none;
-      background: #fccf7c;
       border: 4px solid #1f2b3c;
       border-radius: 40px;
       padding: 0.7rem 1.9rem;
       font-size: 1.3rem;
       font-weight: 700;
       text-transform: uppercase;
-      color: #1f2b3c;
-      letter-spacing: 0.5px;
+      background: linear-gradient(145deg, #ffe28a, #f5b83d);
       box-shadow: 0 7px 0 #9e752b, 0 8px 0 #1f2b3c;
       cursor: pointer;
       transition: all 0.1s ease;
-      transform: translateY(0);
-      background: linear-gradient(145deg, #ffe28a, #f5b83d);
       text-shadow: 1px 1px 0 #fff9cf;
-      position: relative;
+      color: #1f2b3c;
     }
-
-    .diff-btn::after {
-      content: "";
-      position: absolute;
-      top: 2px; left: 6px; right: 6px; height: 35%;
-      background: radial-gradient(circle at 30% 20%, rgba(255,255,240,0.9), rgba(255,255,200,0.1));
-      border-radius: 40px 40px 30px 30px;
-      pointer-events: none;
-    }
-
-    /* --- ACTIVE STATE: different background + GLOW (box-shadow) --- */
     .diff-btn.active {
-      background: #ffb347;            /* brighter orange-glow base */
       background: linear-gradient(145deg, #ffcf6e, #ffa726);
-      box-shadow: 0 3px 0 #9e752b, 0 4px 0 #1f2b3c, 0 0 18px #ffdd55, 0 0 25px #ffb703;  /* glow effect */
+      box-shadow: 0 3px 0 #9e752b, 0 4px 0 #1f2b3c, 0 0 18px #ffdd55, 0 0 25px #ffb703;
       transform: translateY(4px);
       text-shadow: 2px 2px 0 #fff0b5;
-      border-color: #1f2b3c;
-    }
-
-    .diff-btn:active {
-      transform: translateY(5px);
-      box-shadow: 0 1px 0 #9e752b, 0 2px 0 #1f2b3c;
     }
 
     /* game board */
@@ -204,24 +156,21 @@
       background: #fcedd3;
       border: 5px solid #1f2b3c;
       border-radius: 50px;
-      padding: 2rem 1.2rem 1.8rem 1.2rem;
+      padding: 2rem 1.2rem 1.8rem;
       box-shadow: inset 0 -4px 0 #b8a48b, 0 12px 0 #0f1a24;
       margin-top: 0.8rem;
     }
-
     .board {
       display: flex;
       flex-direction: column;
       gap: 0.9rem;
       align-items: center;
     }
-
     .row {
       display: flex;
       gap: 0.9rem;
       justify-content: center;
     }
-
     .tile {
       width: clamp(3.8rem, 12vw, 5.2rem);
       height: clamp(3.8rem, 12vw, 5.2rem);
@@ -235,63 +184,13 @@
       font-size: clamp(2rem, 7vw, 2.7rem);
       color: #1f2b3c;
       text-transform: uppercase;
-      box-shadow: 0 9px 0 #6f8eb3, 0 10px 0 #1f2b3c, 0 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 9px 0 #6f8eb3, 0 10px 0 #1f2b3c;
       transition: all 0.08s ease;
-      transform: translateY(0);
-      font-family: 'Fredoka', 'Comic Neue', cursive;
       text-shadow: 2px 2px 0 #dbeaff;
     }
-
-    .tile:not(.correct):not(.present):not(.absent):hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 0 #6f8eb3, 0 13px 0 #1f2b3c;
-      background: #c9e2ff;
-    }
-
-    .tile:active {
-      transform: translateY(6px);
-      box-shadow: 0 4px 0 #6f8eb3, 0 5px 0 #1f2b3c;
-    }
-
-    .tile.flip {
-      animation: stickerPop 0.22s cubic-bezier(0.2, 1.2, 0.3, 1.2);
-    }
-
-    @keyframes stickerPop {
-      0% { transform: scale(1) rotate(0deg); box-shadow: 0 9px 0 #6f8eb3, 0 10px 0 #1f2b3c; }
-      35% { transform: scale(1.18) rotate(1deg); box-shadow: 0 4px 0 #6f8eb3, 0 6px 0 #1f2b3c; }
-      100% { transform: scale(1) rotate(0); box-shadow: 0 9px 0 #6f8eb3, 0 10px 0 #1f2b3c; }
-    }
-
-    .tile.correct {
-      background: #9fd87f;
-      border-color: #1f2b3c;
-      box-shadow: 0 9px 0 #52803e, 0 10px 0 #1f2b3c;
-      color: #1f2b3c;
-      text-shadow: 2px 2px 0 #b8f09b;
-    }
-
-    .tile.present {
-      background: #fde74c;
-      border-color: #1f2b3c;
-      box-shadow: 0 9px 0 #c5a22b, 0 10px 0 #1f2b3c;
-      color: #1f2b3c;
-      text-shadow: 2px 2px 0 #fffac2;
-    }
-
-    .tile.absent {
-      background: #b0bcc7;
-      border-color: #1f2b3c;
-      box-shadow: 0 9px 0 #6c7a87, 0 10px 0 #1f2b3c;
-      color: #1f2b3c;
-      text-shadow: 2px 2px 0 #d0dde8;
-    }
-
-    .play-again-container {
-      display: flex;
-      justify-content: center;
-      margin-top: 1.5rem;
-    }
+    .tile.correct { background: #9fd87f; box-shadow: 0 9px 0 #52803e, 0 10px 0 #1f2b3c; }
+    .tile.present { background: #fde74c; box-shadow: 0 9px 0 #c5a22b, 0 10px 0 #1f2b3c; }
+    .tile.absent { background: #b0bcc7; box-shadow: 0 9px 0 #6c7a87, 0 10px 0 #1f2b3c; }
 
     .play-again-btn {
       background: #ffb07c;
@@ -301,104 +200,149 @@
       font-size: 2rem;
       font-weight: 800;
       text-transform: uppercase;
-      color: #1f2b3c;
-      letter-spacing: 2px;
       box-shadow: 0 10px 0 #aa5f32, 0 11px 0 #1f2b3c;
       cursor: pointer;
-      transition: 0.06s linear;
       background: linear-gradient(145deg, #ffc89c, #ff9345);
       text-shadow: 2px 2px 0 #ffe3b0;
-      transform: translateY(0);
-      line-height: 1.2;
-      font-family: 'Fredoka', sans-serif;
+      margin-top: 1.5rem;
+      transition: 0.06s linear;
     }
-
+    .play-again-btn.hidden { display: none; }
     .play-again-btn:active {
       transform: translateY(6px);
       box-shadow: 0 4px 0 #aa5f32, 0 5px 0 #1f2b3c;
     }
+    .play-again-container { display: flex; justify-content: center; }
 
-    .play-again-btn.hidden {
-      display: none;
-    }
-
-    /* ---------- CONFIRMATION MODAL (glossy, matches game theme) ---------- */
+    /* ========== WIN/LOSE MODAL (with your custom icons) ========== */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.2);
- backdrop-filter: blur(3px);
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(3px);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 999;
-      transition: 0.2s;
+      transition: opacity 0.2s;
     }
 
-    .modal-card {
+    /* hidden state */
+    .modal-overlay.hidden-modal {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.2s, visibility 0.2s;
+    }
+
+    /* modal card – cream bg, thick border, rounded, drop shadow, pop animation */
+    .game-modal {
+      background: #fdf5e6;
+      border: 4px solid #1f2b3c;
+      border-radius: 60px;
+      padding: 2.5rem 2.8rem;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 18px 0 #0f1a24, 0 25px 30px -8px black;
+      text-align: center;
+      transform: scale(0.3);
+      opacity: 0;
+      transition: transform 0.3s cubic-bezier(0.2, 1.2, 0.3, 1.2), opacity 0.25s;
+    }
+
+    /* pop-in effect when modal becomes visible */
+    .modal-overlay:not(.hidden-modal) .game-modal {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    /* Icon styles - using your PNG files from assets */
+    .modal-icon {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 1rem;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    .correct-icon {
+      background-image: url('components/assets/correct.png');
+    }
+
+    .wrong-icon {
+      background-image: url('components/assets/wrong.png');
+    }
+
+    .game-modal h2 {
+      font-size: 2.5rem;
+      color: #1f2b3c;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 0 #ffcf9a;
+    }
+
+    .game-modal p {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #1f2b3c;
+      margin: 1rem 0 1.5rem;
+    }
+
+    .game-modal .word-highlight {
+      background: #b5d6ff;
+      border: 4px solid #1f2b3c;
+      border-radius: 50px;
+      padding: 0.5rem 2rem;
+      font-size: 2.6rem;
+      font-weight: 800;
+      letter-spacing: 4px;
+      display: inline-block;
+      box-shadow: 0 6px 0 #6f8eb3, 0 7px 0 #1f2b3c;
+      margin: 0.8rem 0 1.8rem;
+      text-transform: uppercase;
+    }
+
+    .game-modal .modal-btn {
+      background: #ffb07c;
+      border: 5px solid #1f2b3c;
+      border-radius: 60px;
+      padding: 1rem 3rem;
+      font-size: 2rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      box-shadow: 0 10px 0 #aa5f32, 0 11px 0 #1f2b3c;
+      cursor: pointer;
+      background: linear-gradient(145deg, #ffc89c, #ff9345);
+      text-shadow: 2px 2px 0 #ffe3b0;
+      transition: 0.06s linear;
+      width: 100%;
+      max-width: 280px;
+      margin: 0 auto;
+    }
+    .game-modal .modal-btn:active {
+      transform: translateY(5px);
+      box-shadow: 0 4px 0 #aa5f32, 0 5px 0 #1f2b3c;
+    }
+
+    /* Confirmation modal specific */
+    .confirm-modal .modal-card {
       background: #fef0d7;
       border: 6px solid #1f2b3c;
       border-radius: 60px;
       padding: 2.2rem 2.5rem;
       max-width: 450px;
       width: 90%;
-      box-shadow: 0 18px 0 #0f1a24, 0 25px 30px -8px black;
+      box-shadow: 0 18px 0 #0f1a24;
       text-align: center;
     }
 
-    .modal-card p {
-      font-size: 1.9rem;
-      font-weight: 700;
-      color: #1f2b3c;
-      text-transform: uppercase;
-      letter-spacing: -0.3px;
-      margin-bottom: 2rem;
-      text-shadow: 2px 2px 0 #ffeec2;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 1.2rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .modal-btn {
-      border: 4px solid #1f2b3c;
-      border-radius: 50px;
-      padding: 0.9rem 2rem;
-      font-size: 1.5rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      background: #b5d6ff;
-      box-shadow: 0 6px 0 #6f8eb3, 0 7px 0 #1f2b3c;
-      cursor: pointer;
-      transition: 0.04s linear;
-      background: linear-gradient(145deg, #d0e4ff, #9bbdf0);
-      color: #1f2b3c;
-      min-width: 140px;
-    }
-
-    .modal-btn.quit {
-      background: #ffb07c;
-      background: linear-gradient(145deg, #ffb07c, #f57c42);
-    }
-
-    .modal-btn:active {
-      transform: translateY(5px);
-      box-shadow: 0 1px 0 #6f8eb3, 0 2px 0 #1f2b3c;
-    }
-
-    .hidden-modal {
-      display: none !important;
-    }
-
-    @media (max-width: 580px) {
-      .game-card { padding: 1.5rem 1rem; }
-      .game-header { padding-left: 3.8rem; }
-      .back-btn { top: 1rem; left: 1rem; padding: 0.3rem 0.9rem; font-size: 1rem; }
-      .game-title { font-size: 2.2rem; }
-      .modal-card p { font-size: 1.5rem; }
+    @media (max-width: 550px) {
+      .game-modal { padding: 1.8rem; }
+      .game-modal h2 { font-size: 2rem; }
+      .modal-icon { width: 90px; height: 90px; }
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
@@ -406,23 +350,20 @@
 </head>
 <body>
   <div class="game-card">
-    <!-- BACK BUTTON (now opens modal instead of direct link) -->
+    <!-- back button (triggers confirmation) -->
     <button class="back-btn" id="backBtnTrigger">
-      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M19 12H5M12 19l-7-7 7-7"/>
-      </svg>
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
       <span>back</span>
     </button>
 
     <div class="game-header">
       <div class="title-block">
         <span class="game-title">word guess</span>
-        <div class="stats-badge" id="statsBadge">
+        <div class="stats-badge">
           <span class="stat-item"><span class="stat-icon"></span> length <span id="wordLengthDisplay" class="stat-value">5</span></span>
           <span class="stat-item"><span class="stat-icon"></span> tries <span id="attemptsDisplay" class="stat-value">6</span></span>
         </div>
       </div>
-      <!-- difficulty toggles (active glow added) -->
       <div class="difficulty-row" id="difficultyRow">
         <button class="diff-btn" data-difficulty="easy">😊 easy</button>
         <button class="diff-btn active" data-difficulty="medium">🤓 medium</button>
@@ -431,7 +372,7 @@
     </div>
 
     <div class="board-wrap">
-      <div id="board" class="board" aria-label="sticker game grid"></div>
+      <div id="board" class="board" aria-label="game grid"></div>
     </div>
 
     <div class="play-again-container">
@@ -439,27 +380,37 @@
     </div>
   </div>
 
-  <!-- CONFIRMATION MODAL (hidden by default) -->
-  <div id="confirmModal" class="modal-overlay hidden-modal">
+  <!-- CONFIRMATION MODAL (for back button) -->
+  <div id="confirmModal" class="modal-overlay hidden-modal confirm-modal">
     <div class="modal-card">
-      <p>⚠️ ARE YOU SURE?<br>Your progress will be lost.</p>
-      <div class="modal-actions">
-        <button class="modal-btn" id="modalResume">↻ RESUME</button>
-        <button class="modal-btn quit" id="modalQuit">✕ QUIT</button>
+      <p style="font-size:1.9rem; font-weight:700;">⚠️ ARE YOU SURE?<br>Progress will be lost.</p>
+      <div style="display:flex; gap:1.2rem; justify-content:center; flex-wrap:wrap;">
+        <button class="modal-btn" id="modalResume" style="border:4px solid #1f2b3c; border-radius:50px; padding:0.9rem 2rem; font-size:1.5rem; font-weight:800; background:linear-gradient(145deg,#d0e4ff,#9bbdf0); box-shadow:0 6px 0 #6f8eb3,0 7px 0 #1f2b3c;">↻ RESUME</button>
+        <button class="modal-btn quit" id="modalQuit" style="background:linear-gradient(145deg,#ffb07c,#f57c42);">✕ QUIT</button>
       </div>
+    </div>
+  </div>
+
+  <!-- ✨ ICON MODAL with your custom PNGs ✨ -->
+  <div id="iconModal" class="modal-overlay hidden-modal">
+    <div class="game-modal">
+      <div id="modalIcon" class="modal-icon correct-icon"></div>
+      <h2 id="modalTitle">POP!</h2>
+      <p id="modalMessage">You nailed it!</p>
+      <div class="word-highlight" id="modalWord">_____</div>
+      <button class="modal-btn" id="modalActionBtn">PLAY AGAIN</button>
     </div>
   </div>
 
   <script>
     (function() {
-      // ---------- WORD SETS (easy:4/7, medium:5/6, hard:6/5) ----------
+      // ----- WORD SETS -----
       const WORD_SETS = {
         easy:   ['FISH', 'MOON', 'STAR', 'TREE', 'BOOK', 'RAIN', 'HAND', 'FORT', 'ROCK', 'WIND'],
         medium: ['APPLE', 'HOUSE', 'PLANT', 'CHAIR', 'TABLE', 'MUSIC', 'WATER', 'LIGHT', 'SMILE', 'BRAIN'],
         hard:   ['PUZZLE', 'ORANGE', 'CASTLE', 'MARKET', 'ROCKET', 'BOTTLE', 'PLANET', 'WINDOW', 'FLOWER', 'GARDEN']
       };
-
-      const MAX_ROWS = { easy: 7, medium: 6, hard: 5 }; 
+      const MAX_ROWS = { easy: 7, medium: 6, hard: 5 };
 
       // state
       let currentDifficulty = 'medium';
@@ -478,49 +429,39 @@
       const diffBtns = document.querySelectorAll('.diff-btn');
       const playAgainBtn = document.getElementById('playAgainBtn');
       const backTrigger = document.getElementById('backBtnTrigger');
-      const modal = document.getElementById('confirmModal');
+      const confirmModal = document.getElementById('confirmModal');
       const resumeBtn = document.getElementById('modalResume');
       const quitBtn = document.getElementById('modalQuit');
 
-      // helper: random word
+      // ✨ ICON MODAL elements
+      const iconModal = document.getElementById('iconModal');
+      const modalIcon = document.getElementById('modalIcon');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalMessage = document.getElementById('modalMessage');
+      const modalWord = document.getElementById('modalWord');
+      const modalActionBtn = document.getElementById('modalActionBtn');
+
+      // Helper: random word
       function getRandomWord(diff) {
         const arr = WORD_SETS[diff] || WORD_SETS.medium;
         return arr[Math.floor(Math.random() * arr.length)];
       }
 
-      // reset game (fresh board, new word)
+      // Reset game (new word, empty board)
       function resetGame() {
         guessedLetters = [];
         currentRow = 0;
         currentCol = 0;
         gameFinished = false;
-
         secretWord = getRandomWord(currentDifficulty);
         wordLength = secretWord.length;
         maxAttempts = MAX_ROWS[currentDifficulty];
-
         wordLengthSpan.textContent = wordLength;
         attemptsSpan.textContent = maxAttempts;
-
         buildEmptyBoard();
         playAgainBtn.classList.add('hidden');
-
-        const wrap = document.querySelector('.board-wrap');
-        wrap.style.animation = 'none';
-        wrap.offsetHeight;
-        wrap.style.animation = 'stickerPop 0.2s ease';
-      }
-
-      // change difficulty + update active class (GLOW active state)
-      function setDifficulty(diff) {
-        if (diff === currentDifficulty) return;
-        currentDifficulty = diff;
-        // update active class on buttons (new active style includes glow)
-        diffBtns.forEach(btn => {
-          const isActive = btn.dataset.difficulty === diff;
-          btn.classList.toggle('active', isActive);
-        });
-        resetGame(); // also resets board and word
+        // ensure modal is hidden
+        iconModal.classList.add('hidden-modal');
       }
 
       // Build empty board
@@ -542,6 +483,50 @@
 
       function getTile(r, c) {
         return boardEl.children[r]?.children[c];
+      }
+
+      // ------ showIconModal(type, word) : shows modal with your custom PNG icons -----
+      function showIconModal(type, word) {
+        // Set word display
+        modalWord.textContent = word;
+        
+        if (type === 'win') {
+          // Win modal - correct icon, confetti, celebration message
+          modalIcon.className = 'modal-icon correct-icon';
+          modalTitle.textContent = 'POP!';
+          modalMessage.textContent = 'You nailed it!';
+          
+          // Trigger confetti for wins only
+          confetti({ particleCount: 120, spread: 70, origin: { x: 0.5, y: 0.5 }, colors: ['#fdf5e6', '#ffb07c', '#ffd966', '#b5d6ff'] });
+          setTimeout(() => {
+            confetti({ particleCount: 80, spread: 100, origin: { x: 0.3, y: 0.6 }, colors: ['#9fd87f', '#ff7a3d'] });
+          }, 150);
+          setTimeout(() => {
+            confetti({ particleCount: 60, spread: 50, origin: { x: 0.7, y: 0.4 }, colors: ['#fde74c', '#1f2b3c'] });
+          }, 300);
+        } else {
+          // Lose modal - wrong icon, no confetti, game over message
+          modalIcon.className = 'modal-icon wrong-icon';
+          modalTitle.textContent = 'GAME OVER';
+          modalMessage.textContent = 'Better luck next time!';
+        }
+        
+        // Show modal
+        iconModal.classList.remove('hidden-modal');
+      }
+
+      // ----- closeModal() : hides modal AND resets game -----
+      function closeModalAndReset() {
+        iconModal.classList.add('hidden-modal');
+        resetGame();
+      }
+
+      // ----- difficulty setter with glow -----
+      function setDifficulty(diff) {
+        if (diff === currentDifficulty) return;
+        currentDifficulty = diff;
+        diffBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.difficulty === diff));
+        resetGame();
       }
 
       // keyboard handlers
@@ -606,13 +591,14 @@
         setTimeout(() => {
           if (guess === secretWord) {
             gameFinished = true;
-            confetti({ particleCount: 150, colors: ['#FF7B00', '#FFD700', '#91C8FF'], origin: { x: 0.5, y: 0.5 } });
+            // ✨ SHOW WIN MODAL WITH CORRECT ICON (your correct.png)
+            showIconModal('win', secretWord);
             playAgainBtn.classList.remove('hidden');
-            setTimeout(() => alert('🎉 POP! You nailed it —  ' + secretWord), 500);
           } else if (currentRow + 1 >= maxAttempts) {
             gameFinished = true;
+            // ✨ SHOW LOSE MODAL WITH WRONG ICON (your wrong.png)
+            showIconModal('lose', secretWord);
             playAgainBtn.classList.remove('hidden');
-            setTimeout(() => alert('😿 oh no! The word was ' + secretWord), 150);
           } else {
             currentRow++;
             currentCol = 0;
@@ -622,67 +608,47 @@
         }, 400 + wordLength * 60);
       }
 
-      // ----- BACK BUTTON – open modal -----
+      // ----- event listeners -----
+      diffBtns.forEach(btn => btn.addEventListener('click', () => setDifficulty(btn.dataset.difficulty)));
+
+      playAgainBtn.addEventListener('click', resetGame);
+
+      // back button -> show confirm modal
       backTrigger.addEventListener('click', (e) => {
         e.preventDefault();
-        // only show modal if game is in progress (some letters placed or row>0)
-        // But requirement: always show confirmation if there's progress (non-finished game, any tile filled)
-        let hasProgress = false;
-        if (!gameFinished && (currentRow > 0 || currentCol > 0)) {
-          // check any tile filled
-          for (let r = 0; r <= currentRow; r++) {
-            for (let c = 0; c < wordLength; c++) {
-              if (getTile(r, c)?.dataset.letter) {
-                hasProgress = true;
-                break;
-              }
-            }
-          }
-        }
-        // always show modal (even if no progress – but user expects consistent behaviour)
-        // to be safe: if gameFinished, we can go directly? But better ask anyway. We'll show modal always when clicked.
-        modal.classList.remove('hidden-modal');
+        confirmModal.classList.remove('hidden-modal');
       });
-
-      // Resume = hide modal
-      resumeBtn.addEventListener('click', () => {
-        modal.classList.add('hidden-modal');
-      });
-
-      // Quit = navigate to instructions page (preserve settings via URL)
+      
+      resumeBtn.addEventListener('click', () => confirmModal.classList.add('hidden-modal'));
+      
       quitBtn.addEventListener('click', () => {
-        // preserve settings (category, length, tries) as query params
-        const params = new URLSearchParams();
-        params.set('difficulty', currentDifficulty);
-        params.set('len', wordLength);
-        params.set('tries', maxAttempts);
-        // optionally add row/col if you want to resume later (but instructions likely just read category)
+        const params = new URLSearchParams({ difficulty: currentDifficulty, len: wordLength, tries: maxAttempts });
         window.location.href = `/instructions?${params.toString()}`;
       });
+      
+      confirmModal.addEventListener('click', (e) => {
+        if (e.target === confirmModal) confirmModal.classList.add('hidden-modal');
+      });
 
-      // Also close modal if click outside (simple overlay click)
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-          modal.classList.add('hidden-modal');
+      // ICON MODAL: play again button closes modal and resets
+      modalActionBtn.addEventListener('click', () => {
+        closeModalAndReset();
+      });
+
+      // click outside overlay closes modal
+      iconModal.addEventListener('click', (e) => {
+        if (e.target === iconModal) {
+          closeModalAndReset();
         }
       });
 
-      // Difficulty click (now uses setDifficulty)
-      diffBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          setDifficulty(btn.dataset.difficulty);
-        });
-      });
-
-      // play again
-      playAgainBtn.addEventListener('click', () => {
-        resetGame();
-      });
-
-      // keyboard
+      // keyboard - block when any modal open
       window.addEventListener('keydown', (e) => {
         const key = e.key;
-        if (modal.classList.contains('hidden-modal') === false) return; // ignore typing when modal open
+        if (!confirmModal.classList.contains('hidden-modal') || !iconModal.classList.contains('hidden-modal')) {
+          // if any modal open, block typing
+          return;
+        }
         if (/^[a-zA-Z]$/.test(key)) {
           e.preventDefault();
           addLetter(key.toUpperCase());
@@ -695,23 +661,26 @@
         }
       });
 
-      // init from URL difficulty
-      function getURLParameter(name) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(name);
-      }
-      const urlDiff = getURLParameter('difficulty');
-      if (urlDiff && ['easy', 'medium', 'hard'].includes(urlDiff)) {
+      // initialise from URL difficulty
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlDiff = urlParams.get('difficulty');
+      if (urlDiff && ['easy','medium','hard'].includes(urlDiff)) {
         currentDifficulty = urlDiff;
       }
-      // set active class accordingly
-      diffBtns.forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.difficulty === currentDifficulty);
-      });
-      resetGame(); // starts with correct difficulty
+      diffBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.difficulty === currentDifficulty));
+      resetGame();
 
-      // make sure active glow appears on the correct button (resetGame doesn't change active class)
-      // after resetGame, active class is already set from above.
+      // add flip animation style
+      const style = document.createElement('style');
+      style.textContent = `
+        .tile.flip { animation: stickerPop 0.22s cubic-bezier(0.2, 1.2, 0.3, 1.2); }
+        @keyframes stickerPop {
+          0% { transform: scale(1); }
+          35% { transform: scale(1.18) rotate(1deg); }
+          100% { transform: scale(1); }
+        }
+      `;
+      document.head.appendChild(style);
     })();
   </script>
 </body>
